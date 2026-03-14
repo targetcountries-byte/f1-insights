@@ -1,22 +1,27 @@
 // lib/api.ts — Data fetching helpers
 import { REPO_BASE } from './constants'
 
+// GitHub raw URLs: spaces become %20 in directory names
+function encodeEvent(event: string): string {
+  return event.replace(/ /g, '%20')
+}
+
 export async function fetchSessionData(year: number, event: string, session: string) {
-  const url = `${REPO_BASE}/${year}/${encodeURIComponent(event)}/${session}/session.json`
+  const url = `${REPO_BASE}/${year}/${encodeEvent(event)}/${session}/session.json`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`No data: ${url}`)
   return res.json()
 }
 
 export async function fetchLapTimes(year: number, event: string, session: string) {
-  const url = `${REPO_BASE}/${year}/${encodeURIComponent(event)}/${session}/laptimes.json`
+  const url = `${REPO_BASE}/${year}/${encodeEvent(event)}/${session}/laptimes.json`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`No lap times: ${url}`)
   return res.json()
 }
 
 export function buildDataUrl(year: number, event: string, session: string, file = 'session.json') {
-  return `${REPO_BASE}/${year}/${encodeURIComponent(event)}/${session}/${file}`
+  return `${REPO_BASE}/${year}/${encodeEvent(event)}/${session}/${file}`
 }
 
 // Parse URL search params into session state

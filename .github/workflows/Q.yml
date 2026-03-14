@@ -11,6 +11,8 @@ on:
     - cron: '30 13,14,15,16 * * 6'
 env:
   PYTHONDONTWRITEBYTECODE: 1
+permissions:
+  contents: write
 jobs:
   extract:
     runs-on: ubuntu-latest
@@ -50,7 +52,5 @@ jobs:
           find .. -name "*.json" -not -path "*/.git/*" -exec git add --force --sparse {} +
           if ! git diff --cached --quiet; then
             git commit -m "Update F1 telemetry data [skip ci]"
-            git push
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
