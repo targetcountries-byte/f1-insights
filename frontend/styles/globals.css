@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Base ───────────────────────────────────────────── */
+:root {
+  --bg-primary:   #15151E;
+  --bg-secondary: #1E1E2E;
+  --bg-surface:   #2A2A3E;
+  --bg-hover:     #353550;
+  --text-primary: #F0F0F0;
+  --text-muted:   #9CA3AF;
+  --border:       rgba(255,255,255,0.08);
+  --accent:       #E10600;
+  --chart-bg:     #1A1A2E;
+}
+
+/* ── Team themes ─────────────────────────────────────── */
+.theme-redbull    { --accent: #3671C6; --bg-primary: #0A0F1E; }
+.theme-ferrari    { --accent: #E8002D; --bg-primary: #1A0505; }
+.theme-mercedes   { --accent: #27F4D2; --bg-primary: #041A18; }
+.theme-mclaren    { --accent: #FF8000; --bg-primary: #1A0D00; }
+.theme-aston      { --accent: #229971; --bg-primary: #041A10; }
+.theme-alpine     { --accent: #FF87BC; --bg-primary: #1A0510; }
+.theme-williams   { --accent: #64C4FF; --bg-primary: #041520; }
+.theme-racingbulls{ --accent: #6692FF; --bg-primary: #050A1A; }
+.theme-haas       { --accent: #B6BABD; --bg-primary: #111111; }
+.theme-audi       { --accent: #B8B8B8; --bg-primary: #111111; }
+.theme-cadillac   { --accent: #CC0000; --bg-primary: #1A0505; }
+.theme-night      { --bg-primary: #000000; --bg-secondary: #0A0A0A; }
+.theme-luxury     { --bg-primary: #0D0B08; --bg-secondary: #1A1710; --accent: #C9A84C; }
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--bg-surface); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ── Chart container ─────────────────────────────────── */
+.chart-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+}
+
+/* ── Plotly overrides ────────────────────────────────── */
+.js-plotly-plot .plotly .bg { fill: transparent !important; }
+.js-plotly-plot .plotly .modebar { background: var(--bg-surface) !important; }
+.js-plotly-plot .plotly .modebar-btn path { fill: var(--text-muted) !important; }
+.js-plotly-plot .plotly .modebar-btn:hover path { fill: var(--text-primary) !important; }
+
+/* ── Selector ────────────────────────────────────────── */
+.selector-button {
+  @apply px-3 py-1.5 text-sm rounded-md border transition-all duration-150 cursor-pointer;
+  background: var(--bg-surface);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.selector-button:hover, .selector-button.active {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+.selector-button.active { background: rgba(var(--accent), 0.15); }
+
+/* ── Compound pill ───────────────────────────────────── */
+.compound-soft  { background: #FF3333; }
+.compound-medium{ background: #FFD700; }
+.compound-hard  { background: #EEEEEE; color: #000; }
+.compound-inter { background: #39B54A; }
+.compound-wet   { background: #0067FF; }

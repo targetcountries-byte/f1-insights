@@ -1,0 +1,115 @@
+name: Extract Sprint Qualifying
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        required: true
+        default: '2026'
+      event:
+        required: true
+  schedule:
+    - cron: '30 12,14,16 * * 6'
+env:
+  PYTHONDONTWRITEBYTECODE: 1
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: data-pipeline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: false
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-py3.10-${{ hashFiles('data-pipeline/requirements.txt') }}
+      - name: Install dependencies
+        run: uv pip install -r requirements.txt --system
+      - name: Configure git
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Extract Sprint Qualifying
+        env:
+          GITHUB_ACTIONS: "true"
+          YEAR: ${{ github.event.inputs.year || '2026' }}
+          EVENT: ${{ github.event.inputs.event || '' }}
+        run: python tel.py $YEAR "$EVENT" SQ
+      - name: Commit and push
+        run: |
+          git config advice.addIgnoredFile false
+          find .. -name "*.json" -not -path "*/.git/*" -exec git add --force --sparse {} +
+          if ! git diff --cached --quiet; then
+            git commit -m "Update F1 telemetry data [skip ci]"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+---
+name: Extract Sprint Race
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        required: true
+        default: '2026'
+      event:
+        required: true
+  schedule:
+    - cron: '30 10,12,14 * * 6,0'
+env:
+  PYTHONDONTWRITEBYTECODE: 1
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: data-pipeline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: false
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-py3.10-${{ hashFiles('data-pipeline/requirements.txt') }}
+      - name: Install dependencies
+        run: uv pip install -r requirements.txt --system
+      - name: Configure git
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Extract Sprint Race
+        env:
+          GITHUB_ACTIONS: "true"
+          YEAR: ${{ github.event.inputs.year || '2026' }}
+          EVENT: ${{ github.event.inputs.event || '' }}
+        run: |
+          python tel.py $YEAR "$EVENT" SR
+          python laptimesR.py $YEAR "$EVENT" SR
+      - name: Commit and push
+        run: |
+          git config advice.addIgnoredFile false
+          find .. -name "*.json" -not -path "*/.git/*" -exec git add --force --sparse {} +
+          if ! git diff --cached --quiet; then
+            git commit -m "Update F1 telemetry data [skip ci]"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
