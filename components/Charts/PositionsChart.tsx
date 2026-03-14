@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { PLOTLY_BASE_LAYOUT, PLOTLY_CONFIG } from '@/lib/constants'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
 
 interface LapData { lap: number; pos: number | null }
 interface DriverData { driver: string; color: string; laps: LapData[] }
@@ -14,7 +14,7 @@ export function PositionsChart({ drivers }: Props) {
     const driverList = Object.values(drivers)
     if (!driverList.length) return { traces: [], layout: {} }
 
-    const traces: Partial<Plotly.PlotData>[] = driverList.map(d => ({
+    const traces: any[] = driverList.map(d => ({
       x: d.laps.map(l => l.lap),
       y: d.laps.map(l => l.pos),
       type: 'scatter', mode: 'lines+markers', name: d.driver,

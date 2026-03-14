@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Positions Change — F1 Analytics',
-  description: 'How each driver's race position changed lap by lap from start to finish.',
+  description: "How each driver's race position changed lap by lap from start to finish.",
 }
 
 export default function PositionsChangePage() {

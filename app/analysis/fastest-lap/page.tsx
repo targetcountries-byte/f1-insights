@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Fastest Lap — F1 Analytics',
-  description: 'Telemetry comparison of each driver's fastest lap — speed, throttle, brake, gear, DRS/Active Aero.',
+  description: "Telemetry comparison of each driver's fastest lap — speed, throttle, brake, gear, DRS/Active Aero.",
 }
 
 export default function FastestLapPage() {

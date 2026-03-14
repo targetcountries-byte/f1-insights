@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { PLOTLY_BASE_LAYOUT, PLOTLY_CONFIG } from '@/lib/constants'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
 
 interface TelPoint { d: number; sp: number; th: number; br: boolean; g: number }
 interface DriverTel { driver: string; color: string; tel: TelPoint[] }
@@ -14,7 +14,7 @@ export function GGPlotChart({ drivers }: Props) {
     const driverList = Object.values(drivers)
     if (!driverList.length) return { traces: [], layout: {} }
 
-    const traces: Partial<Plotly.PlotData>[] = driverList.map(d => {
+    const traces: any[] = driverList.map(d => {
       if (!d.tel?.length) return {} as any
 
       // Approximate lateral G from speed changes and longitudinal from throttle/brake

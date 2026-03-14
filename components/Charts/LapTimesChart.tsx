@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { compoundColor, PLOTLY_BASE_LAYOUT, PLOTLY_CONFIG, TRACK_STATUS_COLORS, TRACK_STATUS_LABELS } from '@/lib/constants'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
 
 interface LapData {
   lap: number; time: number | null; fuel_corrected: number | null
@@ -37,7 +37,7 @@ export function LapTimesChart({
     const threshold = hideOutliers ? median * (outlierPct / 100) : Infinity
 
     // Track status background shapes
-    const shapes: Plotly.Shape[] = []
+    const shapes: any[] = []
     if (showTrackStatus && trackStatus.length) {
       for (let i = 0; i < trackStatus.length; i++) {
         const s = trackStatus[i]
@@ -54,7 +54,7 @@ export function LapTimesChart({
       }
     }
 
-    const traces: Partial<Plotly.PlotData>[] = Object.values(drivers).map(d => {
+    const traces: any[] = Object.values(drivers).map(d => {
       const validLaps = d.laps.filter(l => {
         const t = fuelCorr ? l.fuel_corrected : l.time
         return t != null && t < threshold && l.accurate !== false

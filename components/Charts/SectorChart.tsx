@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
 import { PLOTLY_BASE_LAYOUT, PLOTLY_CONFIG } from '@/lib/constants'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
 
 interface LapData { lap: number; s1: number | null; s2: number | null; s3: number | null; accurate: boolean }
 interface DriverData { driver: string; color: string; laps: LapData[] }
@@ -30,7 +30,7 @@ export function SectorChart({ drivers }: Props) {
       { key: 'S3', field: 's3', dash: 'dot' },
     ]
 
-    const traces: Partial<Plotly.PlotData>[] = []
+    const traces: any[] = []
 
     driverList.forEach(d => {
       SECTORS.forEach(({ key, field, dash }) => {

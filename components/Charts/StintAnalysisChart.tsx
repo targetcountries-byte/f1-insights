@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { compoundColor, PLOTLY_BASE_LAYOUT, PLOTLY_CONFIG } from '@/lib/constants'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
 
 interface LapData { lap: number; time: number | null; stint: number; compound: string; tyre_life: number; accurate: boolean }
 interface DriverData { driver: string; color: string; laps: LapData[] }
@@ -14,7 +14,7 @@ export function StintAnalysisChart({ drivers, year }: Props) {
     const driverList = Object.values(drivers)
     if (!driverList.length) return { traces: [], layout: {} }
 
-    const traces: Partial<Plotly.PlotData>[] = []
+    const traces: any[] = []
 
     driverList.forEach(d => {
       // Group laps by stint

@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
 import { compoundColor, compoundTextColor, PLOTLY_BASE_LAYOUT, PLOTLY_CONFIG } from '@/lib/constants'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false }) as any
 
 interface StintInfo { stint: number; compound: string; start_lap: number; end_lap: number; laps: number; fresh: boolean }
 interface DriverStints { driver: string; color: string; stints: StintInfo[] }
@@ -14,7 +14,7 @@ export function TyreStrategyChart({ drivers, year, totalLaps }: Props) {
     const driverList = Object.values(drivers).reverse()
     if (!driverList.length) return { traces: [], layout: {} }
 
-    const traces: Partial<Plotly.PlotData>[] = []
+    const traces: any[] = []
 
     driverList.forEach(d => {
       d.stints.forEach(stint => {

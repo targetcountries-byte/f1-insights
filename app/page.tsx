@@ -56,7 +56,8 @@ function DashboardInner() {
   useEffect(() => { loadData() }, [loadData])
 
   // Filter to selected drivers
-  const filteredData = sessionData ? Object.fromEntries(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const filteredData: Record<string, any> = sessionData ? Object.fromEntries(
     Object.entries(sessionData.data ?? {}).filter(([k]) =>
       drivers.length === 0 || drivers.includes(k)
     )
